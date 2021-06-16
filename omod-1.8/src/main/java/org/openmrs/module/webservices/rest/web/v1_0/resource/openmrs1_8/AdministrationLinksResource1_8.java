@@ -41,11 +41,11 @@ import java.util.Map;
 				"2.4.*", "2.5.*" })
 public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResource<ModuleAdministrationLinks1_8> {
 
-	public static final String ADMIN_LIST_POINT_ID = "org.openmrs.admin.list";
+	private static final String ADMIN_LIST_POINT_ID = "org.openmrs.admin.list";
 
-	public static final String MODULE_TITLE = "moduleTitle";
+	private static final String MODULE_TITLE = "moduleTitle";
 
-	public static final String LINKS = "administrationLinks";
+	private static final String LINKS = "administrationLinks";
 
 	/**
 	 * ModuleFactoryWrapper is used for testing purposes.
@@ -71,7 +71,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 			throw new ObjectNotFoundException();
 		}
 
-		return getAdministrationLinksForModule(moduleId);
+		return administrationLinks;
 	}
 
 	@Override

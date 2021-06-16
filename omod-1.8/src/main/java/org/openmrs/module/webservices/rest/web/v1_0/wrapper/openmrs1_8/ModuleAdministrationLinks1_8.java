@@ -22,7 +22,7 @@ import java.util.List;
  */
 public class ModuleAdministrationLinks1_8 implements Serializable {
 
-	public static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
 	private final String moduleId;
 
