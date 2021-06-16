@@ -15,8 +15,8 @@ import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.StringProperty;
 import org.openmrs.module.Extension;
-import org.openmrs.module.ModuleFactory;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
+import org.openmrs.module.webservices.helper.ModuleFactoryWrapper;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
@@ -46,6 +46,15 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 	public static final String MODULE_TITLE = "moduleTitle";
 
 	public static final String LINKS = "administrationLinks";
+
+	/**
+	 * ModuleFactoryWrapper is used for testing purposes.
+	 */
+	private ModuleFactoryWrapper moduleFactoryWrapper = new ModuleFactoryWrapper();
+
+	public void setModuleFactoryWrapper(ModuleFactoryWrapper moduleFactoryWrapper) {
+		this.moduleFactoryWrapper = moduleFactoryWrapper;
+	}
 
 	@Override
 	public ModuleAdministrationLinks1_8 newDelegate() {
@@ -123,7 +132,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 	}
 
 	private ModuleAdministrationLinks1_8 getAdministrationLinksForModule(String moduleId) {
-		List<Extension> adminListsExtensions = ModuleFactory.getExtensions(ADMIN_LIST_POINT_ID);
+		List<Extension> adminListsExtensions = moduleFactoryWrapper.getExtensions(ADMIN_LIST_POINT_ID);
 		for (Extension adminListExtension : adminListsExtensions) {
 			if (adminListExtension instanceof AdministrationSectionExt && adminListExtension.getModuleId()
 					.equals(moduleId)) {
@@ -137,7 +146,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 	private List<ModuleAdministrationLinks1_8> getAllAdministrationLinks() {
 		List<ModuleAdministrationLinks1_8> modulesWithLinksList = new ArrayList<ModuleAdministrationLinks1_8>();
 
-		List<Extension> adminListsExtensions = ModuleFactory.getExtensions(ADMIN_LIST_POINT_ID);
+		List<Extension> adminListsExtensions = moduleFactoryWrapper.getExtensions(ADMIN_LIST_POINT_ID);
 
 		for (Extension adminListExtension : adminListsExtensions) {
 			if (adminListExtension instanceof AdministrationSectionExt) {
