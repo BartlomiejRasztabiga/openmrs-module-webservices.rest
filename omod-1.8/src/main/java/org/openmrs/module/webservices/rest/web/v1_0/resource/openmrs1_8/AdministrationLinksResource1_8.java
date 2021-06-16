@@ -47,9 +47,6 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 
 	private static final String LINKS = "administrationLinks";
 
-	/**
-	 * ModuleFactoryWrapper is used for testing purposes.
-	 */
 	private ModuleFactoryWrapper moduleFactoryWrapper = new ModuleFactoryWrapper();
 
 	public void setModuleFactoryWrapper(ModuleFactoryWrapper moduleFactoryWrapper) {
