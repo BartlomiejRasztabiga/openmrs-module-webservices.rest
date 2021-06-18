@@ -3,7 +3,6 @@
  * v. 2.0. If a copy of the MPL was not distributed with this file, You can
  * obtain one at http://mozilla.org/MPL/2.0/. OpenMRS is also distributed under
  * the terms of the Healthcare Disclaimer located at http://openmrs.org/license.
- *
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
@@ -31,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Tests Read operations for {@link AdministrationSectionExt} via web service calls
@@ -92,14 +92,8 @@ public class AdministrationLinksController1_8Test extends MainResourceController
 		assertEquals(RestConstants.MODULE_ID, PropertyUtils.getProperty(result, "uuid"));
 		assertEquals("WS-links", PropertyUtils.getProperty(result, "title"));
 
-		List<Object> links = (List<Object>) PropertyUtils.getProperty(result, "links");
-		System.out.println(links);
-//		assertEquals(2, links.size());
-
-//		assertEquals("ws.first.link", PropertyUtils.getProperty(links.entrySet().get, "title"));
-//		assertEquals("link1", PropertyUtils.getProperty(links.get(0), "url"));
-//		assertEquals("ws.second.link", PropertyUtils.getProperty(links.get(1), "title"));
-//		assertEquals("link2", PropertyUtils.getProperty(links.get(1), "url"));
+		Object links = PropertyUtils.getProperty(result, "administrationLinks");
+		assertNotNull(links);
 	}
 
 	private void assertCorrectAtlasModuleLinks(Object result)
@@ -107,10 +101,8 @@ public class AdministrationLinksController1_8Test extends MainResourceController
 		assertEquals("openconceptlab", PropertyUtils.getProperty(result, "uuid"));
 		assertEquals("Atlas-links", PropertyUtils.getProperty(result, "title"));
 
-		List<Object> links = (List<Object>) PropertyUtils.getProperty(result, "links");
-//		assertEquals(1, links.size());
-//		assertEquals("atlas.first.link", PropertyUtils.getProperty(links.get(0), "title"));
-//		assertEquals("link3", PropertyUtils.getProperty(links.get(0), "url"));
+		Object links = PropertyUtils.getProperty(result, "administrationLinks");
+		assertNotNull(links);
 	}
 
 	private void setupMockRestWsModuleAdminListExtension() {
