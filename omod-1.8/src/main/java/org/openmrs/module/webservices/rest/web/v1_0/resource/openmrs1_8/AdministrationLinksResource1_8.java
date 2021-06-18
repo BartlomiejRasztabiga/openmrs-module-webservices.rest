@@ -33,6 +33,7 @@ import org.openmrs.module.webservices.rest.web.response.ResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Resource(name = RestConstants.VERSION_1 + "/administrationlinks", supportedClass = AdministrationSectionExt.class,
 		supportedOpenmrsVersions = { "1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*", "2.1.*", "2.2.*", "2.3.*",
@@ -43,7 +44,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 
 	private static final String MODULE_TITLE = "title";
 
-	private static final String LINKS = "links";
+	private static final String LINKS = "administrationLinks";
 
 	private ModuleFactoryWrapper moduleFactoryWrapper = new ModuleFactoryWrapper();
 
@@ -109,13 +110,18 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 		return instance.getTitle();
 	}
 
+	@PropertyGetter(LINKS)
+	public static Map<String, String> getLinks(AdministrationSectionExt instance) {
+		return instance.getLinks();
+	}
+
 	@Override
 	public Model getGETModel(Representation rep) {
 		ModelImpl model = (ModelImpl) super.getGETModel(rep);
 		if (rep instanceof DefaultRepresentation || rep instanceof FullRepresentation) {
 			model
-				.property(MODULE_TITLE, new StringProperty())
-				.property(LINKS, new ArrayProperty(new ObjectProperty()));
+					.property(MODULE_TITLE, new StringProperty())
+					.property(LINKS, new ArrayProperty(new ObjectProperty()));
 		}
 
 		return model;
