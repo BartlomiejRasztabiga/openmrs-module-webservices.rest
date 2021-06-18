@@ -64,7 +64,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 
 		AdministrationSectionExt administrationLinks = getAdministrationLinksForModule(moduleId);
 		if (administrationLinks == null) {
-			throw new ObjectNotFoundException();
+			throw new ObjectNotFoundException("Module with given id doesn't have any administration links registered.");
 		}
 
 		return administrationLinks;
