@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
+package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs2_0;
 
 import io.swagger.models.Model;
 import io.swagger.models.ModelImpl;
@@ -36,9 +36,8 @@ import java.util.List;
 import java.util.Map;
 
 @Resource(name = RestConstants.VERSION_1 + "/administrationlinks", supportedClass = AdministrationSectionExt.class,
-		supportedOpenmrsVersions = { "1.8.*", "1.9.*", "1.10.*", "1.11.*", "1.12.*", "2.0.*", "2.1.*", "2.2.*", "2.3.*",
-				"2.4.*", "2.5.*" })
-public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResource<AdministrationSectionExt> {
+		supportedOpenmrsVersions = { "2.0.*", "2.1.*", "2.2.*", "2.3.*", "2.4.*", "2.5.*" })
+public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResource<AdministrationSectionExt> {
 
 	private static final String ADMIN_LIST_POINT_ID = "org.openmrs.admin.list";
 
@@ -130,7 +129,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 
 	@Override
 	public NeedsPaging<AdministrationSectionExt> doGetAll(RequestContext context) throws ResponseException {
-		return new NeedsPaging<AdministrationSectionExt>(getAllAdministrationLinks(), context);
+		return new NeedsPaging<>(getAllAdministrationLinks(), context);
 	}
 
 	private AdministrationSectionExt getAdministrationLinksForModule(String moduleId) {
@@ -146,7 +145,7 @@ public class AdministrationLinksResource1_8 extends BaseDelegatingReadableResour
 	}
 
 	private List<AdministrationSectionExt> getAllAdministrationLinks() {
-		List<AdministrationSectionExt> modulesWithLinksList = new ArrayList<AdministrationSectionExt>();
+		List<AdministrationSectionExt> modulesWithLinksList = new ArrayList<>();
 
 		List<Extension> adminListsExtensions = moduleFactoryWrapper.getExtensions(ADMIN_LIST_POINT_ID);
 

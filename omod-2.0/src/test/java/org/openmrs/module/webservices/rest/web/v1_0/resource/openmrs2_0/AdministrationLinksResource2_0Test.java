@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
+package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs2_0;
 
 import org.openmrs.module.web.extension.AdministrationSectionExt;
 import org.openmrs.module.webservices.rest.web.RestConstants;
@@ -16,8 +16,8 @@ import org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResou
 import java.util.HashMap;
 import java.util.Map;
 
-public class AdministrationLinksResource1_8Test
-		extends BaseDelegatingResourceTest<AdministrationLinksResource1_8, AdministrationSectionExt> {
+public class AdministrationLinksResource2_0Test
+		extends BaseDelegatingResourceTest<AdministrationLinksResource2_0, AdministrationSectionExt> {
 
 	@Override
 	public AdministrationSectionExt newObject() {
@@ -30,7 +30,7 @@ public class AdministrationLinksResource1_8Test
 
 			@Override
 			public Map<String, String> getLinks() {
-				Map<String, String> links = new HashMap<String, String>();
+				Map<String, String> links = new HashMap<>();
 				links.put("module/webservices/rest/settings.form", RestConstants.MODULE_ID + ".manage.settings");
 				return links;
 			}

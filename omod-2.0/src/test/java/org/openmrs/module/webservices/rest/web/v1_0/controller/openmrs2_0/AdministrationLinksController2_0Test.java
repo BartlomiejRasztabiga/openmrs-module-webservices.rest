@@ -7,7 +7,7 @@
  * Copyright (C) OpenMRS Inc. OpenMRS is a registered trademark and the OpenMRS
  * graphic logo is a trademark of OpenMRS Inc.
  */
-package org.openmrs.module.webservices.rest.web.v1_0.controller.openmrs1_8;
+package org.openmrs.module.webservices.rest.web.v1_0.controller.openmrs2_0;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import org.openmrs.module.webservices.rest.web.MockModuleFactoryWrapper;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.api.RestService;
 import org.openmrs.module.webservices.rest.web.v1_0.controller.MainResourceControllerTest;
-import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8.AdministrationLinksResource1_8;
+import org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs2_0.AdministrationLinksResource2_0;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +36,7 @@ import static org.junit.Assert.assertNotNull;
 /**
  * Tests Read operations for {@link AdministrationSectionExt} via web service calls
  */
-public class AdministrationLinksController1_8Test extends MainResourceControllerTest {
+public class AdministrationLinksController2_0Test extends MainResourceControllerTest {
 
 	@Autowired
 	RestService restService;
@@ -48,7 +48,7 @@ public class AdministrationLinksController1_8Test extends MainResourceController
 		setupMockRestWsModuleAdminListExtension();
 		setupMockAtlasModuleAdminListExtension();
 
-		AdministrationLinksResource1_8 administrationLinksResource = (AdministrationLinksResource1_8) restService
+		AdministrationLinksResource2_0 administrationLinksResource = (AdministrationLinksResource2_0) restService
 				.getResourceBySupportedClass(AdministrationSectionExt.class);
 		administrationLinksResource.setModuleFactoryWrapper(mockModuleFactory);
 	}
@@ -116,7 +116,7 @@ public class AdministrationLinksController1_8Test extends MainResourceController
 
 			@Override
 			public Map<String, String> getLinks() {
-				Map<String, String> linksMap = new HashMap<String, String>();
+				Map<String, String> linksMap = new HashMap<>();
 				linksMap.put("link1", "ws.first.link");
 				linksMap.put("link2", "ws.second.link");
 				return linksMap;
@@ -141,7 +141,7 @@ public class AdministrationLinksController1_8Test extends MainResourceController
 
 			@Override
 			public Map<String, String> getLinks() {
-				Map<String, String> linksMap = new HashMap<String, String>();
+				Map<String, String> linksMap = new HashMap<>();
 				linksMap.put("link3", "atlas.first.link");
 				return linksMap;
 			}
