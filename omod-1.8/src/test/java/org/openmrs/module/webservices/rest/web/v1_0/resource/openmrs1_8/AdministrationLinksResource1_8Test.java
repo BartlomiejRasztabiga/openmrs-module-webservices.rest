@@ -9,24 +9,34 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
+import org.openmrs.module.web.extension.AdministrationSectionExt;
 import org.openmrs.module.webservices.rest.web.RestConstants;
 import org.openmrs.module.webservices.rest.web.resource.impl.BaseDelegatingResourceTest;
-import org.openmrs.module.webservices.rest.web.v1_0.wrapper.openmrs1_8.ModuleAdministrationLinks1_8;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AdministrationLinksResource1_8Test
-		extends BaseDelegatingResourceTest<AdministrationLinksResource1_8, ModuleAdministrationLinks1_8> {
+		extends BaseDelegatingResourceTest<AdministrationLinksResource1_8, AdministrationSectionExt> {
 
 	@Override
-	public ModuleAdministrationLinks1_8 newObject() {
-		List<ModuleAdministrationLinks1_8.AdministrationLink> linksForModule = new ArrayList<ModuleAdministrationLinks1_8.AdministrationLink>();
-		linksForModule.add(new ModuleAdministrationLinks1_8.AdministrationLink("module/webservices/rest/settings.form",
-				RestConstants.MODULE_ID + ".manage.settings"));
+	public AdministrationSectionExt newObject() {
+		AdministrationSectionExt adminSection = new AdministrationSectionExt() {
 
-		return new ModuleAdministrationLinks1_8(RestConstants.MODULE_ID, RestConstants.MODULE_ID + ".title",
-				linksForModule);
+			@Override
+			public String getTitle() {
+				return RestConstants.MODULE_ID + ".title";
+			}
+
+			@Override
+			public Map<String, String> getLinks() {
+				Map<String, String> links = new HashMap<String, String>();
+				links.put("module/webservices/rest/settings.form", RestConstants.MODULE_ID + ".manage.settings");
+				return links;
+			}
+		};
+		adminSection.setModuleId(RestConstants.MODULE_ID);
+		return adminSection;
 	}
 
 	@Override
