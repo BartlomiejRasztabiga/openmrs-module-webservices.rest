@@ -47,10 +47,6 @@ public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResour
 
 	private ModuleFactoryWrapper moduleFactoryWrapper = new ModuleFactoryWrapper();
 
-	public void setModuleFactoryWrapper(ModuleFactoryWrapper moduleFactoryWrapper) {
-		this.moduleFactoryWrapper = moduleFactoryWrapper;
-	}
-
 	@Override
 	public AdministrationSectionExt newDelegate() {
 		return null;
