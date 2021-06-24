@@ -39,6 +39,10 @@ import java.util.Map;
 		supportedOpenmrsVersions = { "2.0.*", "2.1.*", "2.2.*", "2.3.*", "2.4.*", "2.5.*" })
 public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResource<AdministrationSectionExt> {
 
+	private static final String UUID = "uuid";
+
+	private static final String DISPLAY = "display";
+
 	private static final String ADMIN_LIST_POINT_ID = "org.openmrs.admin.list";
 
 	private static final String MODULE_TITLE = "title";
@@ -70,24 +74,24 @@ public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResour
 	public DelegatingResourceDescription getRepresentationDescription(Representation rep) {
 		if (rep instanceof DefaultRepresentation) {
 			DelegatingResourceDescription description = new DelegatingResourceDescription();
-			description.addProperty("uuid");
-			description.addProperty("display");
+			description.addProperty(UUID);
+			description.addProperty(DISPLAY);
 			description.addProperty(MODULE_TITLE);
 			description.addProperty(LINKS);
 			description.addSelfLink();
 			return description;
 		} else if (rep instanceof FullRepresentation) {
 			DelegatingResourceDescription description = new DelegatingResourceDescription();
-			description.addProperty("uuid");
-			description.addProperty("display");
+			description.addProperty(UUID);
+			description.addProperty(DISPLAY);
 			description.addProperty(MODULE_TITLE);
 			description.addProperty(LINKS);
 			description.addSelfLink();
 			return description;
 		} else if (rep instanceof RefRepresentation) {
 			DelegatingResourceDescription description = new DelegatingResourceDescription();
-			description.addProperty("uuid");
-			description.addProperty("display");
+			description.addProperty(UUID);
+			description.addProperty(DISPLAY);
 			description.addProperty(MODULE_TITLE);
 			description.addProperty(LINKS);
 			description.addSelfLink();
