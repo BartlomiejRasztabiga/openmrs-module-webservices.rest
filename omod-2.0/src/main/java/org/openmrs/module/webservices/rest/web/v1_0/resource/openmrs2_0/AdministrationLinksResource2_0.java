@@ -14,6 +14,8 @@ import io.swagger.models.ModelImpl;
 import io.swagger.models.properties.ArrayProperty;
 import io.swagger.models.properties.ObjectProperty;
 import io.swagger.models.properties.StringProperty;
+import org.openmrs.api.context.Context;
+import org.openmrs.messagesource.MessageSourceService;
 import org.openmrs.module.Extension;
 import org.openmrs.module.web.extension.AdministrationSectionExt;
 import org.openmrs.module.webservices.helper.ModuleFactoryWrapper;
@@ -30,14 +32,15 @@ import org.openmrs.module.webservices.rest.web.resource.impl.DelegatingResourceD
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
 import org.openmrs.module.webservices.rest.web.response.ObjectNotFoundException;
 import org.openmrs.module.webservices.rest.web.response.ResponseException;
+import org.openmrs.module.webservices.rest.web.v1_0.wrapper.AdministrationSectionLinks2_0;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-@Resource(name = RestConstants.VERSION_1 + "/administrationlinks", supportedClass = AdministrationSectionExt.class,
+@Resource(name = RestConstants.VERSION_1 + "/administrationlinks", supportedClass = AdministrationSectionLinks2_0.class,
 		supportedOpenmrsVersions = { "2.0.*", "2.1.*", "2.2.*", "2.3.*", "2.4.*", "2.5.*" })
-public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResource<AdministrationSectionExt> {
+public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResource<AdministrationSectionLinks2_0> {
 
 	private static final String UUID = "uuid";
 
@@ -52,16 +55,16 @@ public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResour
 	private ModuleFactoryWrapper moduleFactoryWrapper = new ModuleFactoryWrapper();
 
 	@Override
-	public AdministrationSectionExt newDelegate() {
+	public AdministrationSectionLinks2_0 newDelegate() {
 		return null;
 	}
 
 	@Override
-	public AdministrationSectionExt getByUniqueId(String moduleId) {
+	public AdministrationSectionLinks2_0 getByUniqueId(String moduleId) {
 		// Assumes that moduleId is an id of a module that user wants to get admin links for.
 		// AdministrationLinksResource has no id by itself as it's not an OpenMRS data object.
 
-		AdministrationSectionExt administrationLinks = getAdministrationLinksForModule(moduleId);
+		AdministrationSectionLinks2_0 administrationLinks = getAdministrationLinksForModule(moduleId);
 		if (administrationLinks == null) {
 			throw new ObjectNotFoundException(
 					"Module with id: " + moduleId + " doesn't have any administration links registered.");
@@ -101,17 +104,17 @@ public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResour
 	}
 
 	@PropertyGetter("uuid")
-	public static String getUuid(AdministrationSectionExt instance) {
+	public static String getUuid(AdministrationSectionLinks2_0 instance) {
 		return instance.getModuleId();
 	}
 
 	@PropertyGetter("display")
-	public static String getDisplay(AdministrationSectionExt instance) {
+	public static String getDisplay(AdministrationSectionLinks2_0 instance) {
 		return instance.getTitle();
 	}
 
 	@PropertyGetter(LINKS)
-	public static Map<String, String> getLinks(AdministrationSectionExt instance) {
+	public static Map<String, String> getLinks(AdministrationSectionLinks2_0 instance) {
 		return instance.getLinks();
 	}
 
@@ -128,33 +131,54 @@ public class AdministrationLinksResource2_0 extends BaseDelegatingReadableResour
 	}
 
 	@Override
-	public NeedsPaging<AdministrationSectionExt> doGetAll(RequestContext context) throws ResponseException {
+	public NeedsPaging<AdministrationSectionLinks2_0> doGetAll(RequestContext context) throws ResponseException {
 		return new NeedsPaging<>(getAllAdministrationLinks(), context);
 	}
 
-	private AdministrationSectionExt getAdministrationLinksForModule(String moduleId) {
+	private AdministrationSectionLinks2_0 getAdministrationLinksForModule(String moduleId) {
 		List<Extension> adminListsExtensions = moduleFactoryWrapper.getExtensions(ADMIN_LIST_POINT_ID);
 		for (Extension adminListExtension : adminListsExtensions) {
 			if (adminListExtension instanceof AdministrationSectionExt && adminListExtension.getModuleId()
 					.equals(moduleId)) {
-				return (AdministrationSectionExt) adminListExtension;
+				return mapAdminListExtension(adminListExtension);
 			}
 		}
 
 		return null;
 	}
 
-	private List<AdministrationSectionExt> getAllAdministrationLinks() {
-		List<AdministrationSectionExt> modulesWithLinksList = new ArrayList<>();
+	private List<AdministrationSectionLinks2_0> getAllAdministrationLinks() {
+		List<AdministrationSectionLinks2_0> modulesWithLinksList = new ArrayList<>();
 
 		List<Extension> adminListsExtensions = moduleFactoryWrapper.getExtensions(ADMIN_LIST_POINT_ID);
 
 		for (Extension adminListExtension : adminListsExtensions) {
 			if (adminListExtension instanceof AdministrationSectionExt) {
-				modulesWithLinksList.add((AdministrationSectionExt) adminListExtension);
+				modulesWithLinksList.add(mapAdminListExtension(adminListExtension));
 			}
 		}
 
 		return modulesWithLinksList;
+	}
+
+	private AdministrationSectionLinks2_0 mapAdminListExtension(Extension extension) {
+		MessageSourceService messageSourceService = Context.getMessageSourceService();
+		AdministrationSectionExt adminListExtension = (AdministrationSectionExt) extension;
+
+		// map module title message key to its value
+		String title = messageSourceService.getMessage(adminListExtension.getTitle());
+
+		// map link titles to their values
+		Map<String, String> links = adminListExtension.getLinks();
+		for (Map.Entry<String, String> link : links.entrySet()) {
+			link.setValue(messageSourceService.getMessage(link.getValue()));
+		}
+
+		AdministrationSectionLinks2_0 administrationSectionLinks = new AdministrationSectionLinks2_0();
+		administrationSectionLinks.setModuleId(adminListExtension.getModuleId());
+		administrationSectionLinks.setTitle(title);
+		administrationSectionLinks.setLinks(links);
+
+		return administrationSectionLinks;
 	}
 }
