@@ -9,13 +9,11 @@
  */
 package org.openmrs.module.webservices.rest.web.v1_0.resource.openmrs1_8;
 
-import org.openmrs.api.context.Context;
 import org.openmrs.module.webservices.helper.TaskServiceWrapper;
 import org.openmrs.module.webservices.rest.web.annotation.PropertyGetter;
 import org.openmrs.module.webservices.rest.web.representation.RefRepresentation;
 import org.openmrs.module.webservices.rest.web.resource.api.PageableResult;
 import org.openmrs.module.webservices.rest.web.resource.impl.NeedsPaging;
-import org.openmrs.module.webservices.rest.web.response.ResourceDoesNotSupportOperationException;
 import org.openmrs.scheduler.TaskDefinition;
 import org.openmrs.module.webservices.rest.web.RequestContext;
 import org.openmrs.module.webservices.rest.web.RestConstants;
@@ -125,14 +123,9 @@ public class TaskDefinitionResource1_8 extends MetadataDelegatingCrudResource<Ta
 	
 	@Override
 	public void purge(TaskDefinition delegate, RequestContext context) throws ResponseException {
-		Context.getSchedulerService().deleteTask(delegate.getId());
+		throw new UnsupportedOperationException("TaskAction cannot be purged");
 	}
-
-	@Override
-	public void delete(TaskDefinition delegate, String reason, RequestContext context) throws ResponseException {
-		throw new ResourceDoesNotSupportOperationException();
-	}
-
+	
 	/**
 	 * @see org.openmrs.module.webservices.rest.web.resource.impl.DelegatingCrudResource#doGetAll(org.openmrs.module.webservices.rest.web.RequestContext)
 	 */
